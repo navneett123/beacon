@@ -6,7 +6,7 @@ Use one Octopus project named **Beacon**.
 
 - DEV
 - PROD
-- Lifecycle order: DEV -> manual approval -> PROD
+- Lifecycle order: DEV -> manual promotion -> PROD
 
 ## Kubernetes targets
 

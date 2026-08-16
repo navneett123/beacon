@@ -50,6 +50,19 @@ fi
 
 echo "[PASS] Health endpoint reachable"
 
+ui_title=$(
+  curl -fsS \
+    "http://127.0.0.1:${PORT}/" |
+    grep -F "Beacon · Loan Eligibility" || true
+)
+
+if [[ -z "$ui_title" ]]; then
+  echo "ERROR: Beacon web UI did not render expected content." >&2
+  exit 1
+fi
+
+echo "[PASS] Web UI reachable"
+
 actual_version=$(
   curl -fsS \
     "http://127.0.0.1:${PORT}/version" |

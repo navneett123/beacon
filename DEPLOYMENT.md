@@ -12,9 +12,9 @@ Do these in order. Stop immediately if a gate fails; do not continue and stack f
 8. Run one TeamCity build with `teamcity/build.sh`. It must test, build, push both images, and validate both Kustomize overlays.
 9. Run `./octopus/prepare-env.sh`, then `./octopus/start-octopus.sh`. If automatic free licensing is unavailable, add your Base64 license to `octopus/.env` and restart.
 10. Configure Octopus Kubernetes targets using `./scripts/07-octopus-credentials.sh`, URL `https://host.docker.internal:6550`, namespaces `beacon-dev` and `beacon-prod`.
-11. Configure one Octopus project `Beacon`, lifecycle DEV -> manual approval -> PROD, and one **Deploy with Kustomize** step sourced from this Git repository. See `octopus/deployment-notes.md`.
+11. Configure one Octopus project `Beacon`, lifecycle DEV -> manual promotion -> PROD, and one **Deploy with Kustomize** step sourced from this Git repository. See `octopus/deployment-notes.md`.
 12. TeamCity build `N` produces image version `1.0.N`. Create Octopus release with the exact same version `1.0.N`.
 13. Deploy that release to DEV and run `./scripts/06-smoke-test.sh beacon-dev 1.0.N`.
-14. Approve the exact same release for PROD; deploy and run `./scripts/06-smoke-test.sh beacon-prod 1.0.N`.
+14. Promote the exact same release to PROD; deploy and run `./scripts/06-smoke-test.sh beacon-prod 1.0.N`.
 15. Validate rollback by redeploying the preceding Octopus release.
 16. Cleanup with `./scripts/99-cleanup.sh all`.

@@ -1,14 +1,14 @@
-# Beacon pre-generation validation
+# Beacon validation
 
-Validated before handoff:
+Validated for the UI-enabled handoff:
 
-- 5/5 Python unit tests passed.
-- Both Python applications passed byte-code compilation.
-- Both services were started locally and an end-to-end eligibility request passed.
-- All generated Bash scripts passed `bash -n` syntax validation.
-- All Kubernetes/Kustomize YAML parsed successfully and overlay semantics were checked.
-- DEV and PROD overlays both reference the same `#{Octopus.Release.Number}` for both image tags and `APP_VERSION`.
-- Version references in Dockerfiles and `versions.lock` were checked for consistency.
-- No Helm/chart or obsolete manifest-package path remains in the project.
+- 7/7 Python/unit integration checks pass (loan-product rules, eligibility rules, and UI packaging/wiring).
+- Both Python applications pass byte-code compilation.
+- The two services start locally and the end-to-end product catalog + eligibility request passes.
+- The root path `/` serves the responsive Beacon Loan Eligibility UI.
+- The deployment smoke test now verifies health, web UI availability, release version, and the business eligibility flow.
+- All generated Bash scripts pass `bash -n` syntax validation.
+- DEV and PROD Kustomize overlays remain unchanged and continue to reference the same `#{Octopus.Release.Number}` for both image tags and `APP_VERSION`.
+- No Helm/chart, Node/React runtime, NGINX frontend, extra Kubernetes Service, or third application container was introduced.
 
-Runtime-only checks intentionally happen on the target Beacon VM because this handoff environment does not provide Docker/k3d. The generated gates stop on first failure and validate the actual Docker engine, pinned k3d/Kubernetes/kubectl combination, local registry, image pull, TeamCity startup, Octopus/SQL startup, Kubernetes connectivity, DEV rollout and smoke tests before the real release flow is used.
+Runtime checks still happen on the Beacon VM because the deployment path depends on its Docker/k3d/TeamCity/Octopus stack. The existing gates stop on first failure and validate the actual registry, Kubernetes rollout, UI endpoint, release version, and application behavior.

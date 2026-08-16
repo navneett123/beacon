@@ -1,20 +1,30 @@
 services:
+
   db:
     image: ${MSSQL_IMAGE}
     container_name: beacon-octopus-db
+
     environment:
       ACCEPT_EULA: "Y"
-      MSSQL_PID: Developer
+      MSSQL_PID: "Developer"
       MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P '$${MSSQL_SA_PASSWORD}' -C -Q 'SELECT 1' >/dev/null || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$${MSSQL_SA_PASSWORD}\" -C -b -Q \"SELECT 1\" >/dev/null 2>&1 || exit 1"
+        ]
       interval: 10s
       timeout: 5s
-      retries: 20
-      start_period: 20s
+      retries: 30
+      start_period: 30s
+
     volumes:
       - octopus-sql:/var/opt/mssql
+
     restart: unless-stopped
+
 
   octopus:
     build:
@@ -22,24 +32,36 @@ services:
       args:
         OCTOPUS_IMAGE: octopusdeploy/octopusdeploy:${OCTOPUS_VERSION}
         KUBECTL_VERSION: ${KUBECTL_VERSION}
+
     container_name: beacon-octopus
+
     user: octopus
+
     depends_on:
       db:
         condition: service_healthy
+
     environment:
       ACCEPT_EULA: "Y"
+
       DB_CONNECTION_STRING: "Server=db,1433;Database=OctopusDeploy;User=sa;Password=${MSSQL_SA_PASSWORD};Encrypt=True;TrustServerCertificate=True"
+
       ADMIN_USERNAME: ${OCTOPUS_ADMIN_USERNAME}
       ADMIN_PASSWORD: ${OCTOPUS_ADMIN_PASSWORD}
       ADMIN_EMAIL: ${OCTOPUS_ADMIN_EMAIL}
+
       OCTOPUS_SERVER_BASE64_LICENSE: ${OCTOPUS_SERVER_BASE64_LICENSE}
+
       MASTER_KEY: ${OCTOPUS_MASTER_KEY}
+
       DISABLE_DIND: "Y"
+
     ports:
       - "1322:8080"
+
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
     volumes:
       - octopus-repository:/repository
       - octopus-artifacts:/artifacts
@@ -47,13 +69,22 @@ services:
       - octopus-cache:/cache
       - octopus-import:/import
       - octopus-events:/eventExports
+
     restart: unless-stopped
 
+
 volumes:
+
   octopus-sql:
+
   octopus-repository:
+
   octopus-artifacts:
+
   octopus-tasklogs:
+
   octopus-cache:
+
   octopus-import:
+
   octopus-events:

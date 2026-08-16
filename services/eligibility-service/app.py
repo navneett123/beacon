@@ -2,6 +2,7 @@ import json
 import os
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlparse
 from urllib.request import Request, urlopen
@@ -11,6 +12,7 @@ APP_VERSION = os.getenv("APP_VERSION", "dev")
 ENVIRONMENT = os.getenv("ENVIRONMENT", "local")
 LOAN_PRODUCT_URL = os.getenv("LOAN_PRODUCT_URL", "http://loan-product-service:8080").rstrip("/")
 UPSTREAM_TIMEOUT_SECONDS = float(os.getenv("UPSTREAM_TIMEOUT_SECONDS", "2.0"))
+UI_FILE = Path(__file__).with_name("ui.html")
 
 
 REQUIRED_FIELDS = {
@@ -22,11 +24,18 @@ REQUIRED_FIELDS = {
 }
 
 
-def fetch_product(product_code):
-    url = f"{LOAN_PRODUCT_URL}/products/{quote(str(product_code).upper())}"
+def fetch_json(url):
     request = Request(url, headers={"Accept": "application/json"})
     with urlopen(request, timeout=UPSTREAM_TIMEOUT_SECONDS) as response:
         return json.loads(response.read().decode())
+
+
+def fetch_product(product_code):
+    return fetch_json(f"{LOAN_PRODUCT_URL}/products/{quote(str(product_code).upper())}")
+
+
+def fetch_products():
+    return fetch_json(f"{LOAN_PRODUCT_URL}/products")
 
 
 def evaluate_eligibility(payload, product):
@@ -70,16 +79,35 @@ def evaluate_eligibility(payload, product):
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "BeaconEligibility/1.0"
+    server_version = "BeaconEligibility/1.1"
 
     def log_message(self, fmt, *args):
         print(f"eligibility-service {self.address_string()} - {fmt % args}", flush=True)
+
+    def send_common_security_headers(self):
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("Referrer-Policy", "no-referrer")
 
     def send_json(self, status, payload):
         body = json.dumps(payload, separators=(",", ":")).encode()
         self.send_response(status)
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(body)))
+        self.send_common_security_headers()
+        self.end_headers()
+        self.wfile.write(body)
+
+    def send_ui(self):
+        try:
+            body = UI_FILE.read_bytes()
+        except OSError:
+            return self.send_json(HTTPStatus.INTERNAL_SERVER_ERROR, {"error": "ui_unavailable"})
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        self.send_common_security_headers()
         self.end_headers()
         self.wfile.write(body)
 
@@ -101,6 +129,8 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = urlparse(self.path).path
+        if path in {"/", "/ui"}:
+            return self.send_ui()
         if path == "/health":
             return self.send_json(HTTPStatus.OK, {"status": "healthy"})
         if path == "/version":
@@ -109,6 +139,13 @@ class Handler(BaseHTTPRequestHandler):
                 "version": APP_VERSION,
                 "environment": ENVIRONMENT,
             })
+        if path == "/products":
+            try:
+                return self.send_json(HTTPStatus.OK, fetch_products())
+            except HTTPError:
+                return self.send_json(HTTPStatus.BAD_GATEWAY, {"error": "loan_product_service_http_error"})
+            except (URLError, TimeoutError, json.JSONDecodeError):
+                return self.send_json(HTTPStatus.SERVICE_UNAVAILABLE, {"error": "loan_product_service_unavailable"})
         return self.send_json(HTTPStatus.NOT_FOUND, {"error": "not_found"})
 
     def do_POST(self):
