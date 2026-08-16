@@ -1,0 +1,7 @@
+FROM python:3.12.14-slim-bookworm
+WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PORT=8080
+COPY --chown=10001:10001 app.py products.json ./
+USER 10001:10001
+EXPOSE 8080
+CMD ["python", "app.py"]

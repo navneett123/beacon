@@ -1,0 +1,6 @@
+.env
+.release/
+*.zip
+__pycache__/
+*.pyc
+.teamcity-data/

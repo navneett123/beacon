@@ -1,0 +1,24 @@
+[
+  {
+    "code": "PL-FLEX",
+    "name": "Personal Loan Flex",
+    "min_amount": 10000,
+    "max_amount": 300000,
+    "min_credit_score": 680,
+    "min_monthly_income": 25000,
+    "allowed_employment": ["SALARIED", "SELF_EMPLOYED"],
+    "tenure_months": [3, 6, 12, 18, 24],
+    "processing_fee_percent": 1.5
+  },
+  {
+    "code": "BNPL-LITE",
+    "name": "BNPL Lite",
+    "min_amount": 1000,
+    "max_amount": 75000,
+    "min_credit_score": 650,
+    "min_monthly_income": 15000,
+    "allowed_employment": ["SALARIED", "SELF_EMPLOYED"],
+    "tenure_months": [3, 6],
+    "processing_fee_percent": 0.75
+  }
+]

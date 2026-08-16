@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: beacon-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: octopus-deployer
+  namespace: beacon-system
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: octopus-deployer-token
+  namespace: beacon-system
+  annotations:
+    kubernetes.io/service-account.name: octopus-deployer
+type: kubernetes.io/service-account-token
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: beacon-deployer
+  namespace: beacon-dev
+rules:
+  - apiGroups: ["", "apps"]
+    resources: ["configmaps", "services", "pods", "deployments", "replicasets"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: beacon-deployer
+  namespace: beacon-dev
+subjects:
+  - kind: ServiceAccount
+    name: octopus-deployer
+    namespace: beacon-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: beacon-deployer
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: beacon-deployer
+  namespace: beacon-prod
+rules:
+  - apiGroups: ["", "apps"]
+    resources: ["configmaps", "services", "pods", "deployments", "replicasets"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: beacon-deployer
+  namespace: beacon-prod
+subjects:
+  - kind: ServiceAccount
+    name: octopus-deployer
+    namespace: beacon-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: beacon-deployer
