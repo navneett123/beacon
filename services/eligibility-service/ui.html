@@ -4,79 +4,151 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b1020">
+
   <title>Beacon · Loan Eligibility</title>
+
   <style>
     :root {
       color-scheme: dark;
+
       --bg: #07101f;
       --bg-2: #0a1528;
+
       --surface: rgba(14, 27, 49, 0.78);
       --surface-strong: #0f1d34;
+
       --line: rgba(148, 163, 184, 0.16);
       --line-strong: rgba(148, 163, 184, 0.26);
+
       --text: #f7f9fc;
       --muted: #98a7bd;
       --soft: #cbd5e1;
+
       --accent: #66e3c4;
       --accent-2: #70a8ff;
+
       --success: #58d69b;
       --danger: #ff7f88;
       --warning: #f9ca74;
+
       --shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+
       --radius-xl: 28px;
       --radius-lg: 20px;
       --radius-md: 14px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
-    html { min-width: 320px; background: var(--bg); }
+    html {
+      min-width: 320px;
+      background: var(--bg);
+    }
 
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
       color: var(--text);
+
       background:
-        radial-gradient(circle at 8% 0%, rgba(112, 168, 255, 0.16), transparent 34rem),
-        radial-gradient(circle at 93% 12%, rgba(102, 227, 196, 0.13), transparent 28rem),
-        linear-gradient(145deg, #07101f 0%, #091425 55%, #07101f 100%);
+        radial-gradient(
+          circle at 8% 0%,
+          rgba(112, 168, 255, 0.16),
+          transparent 34rem
+        ),
+        radial-gradient(
+          circle at 93% 12%,
+          rgba(102, 227, 196, 0.13),
+          transparent 28rem
+        ),
+        linear-gradient(
+          145deg,
+          #07101f 0%,
+          #091425 55%,
+          #07101f 100%
+        );
     }
 
     body::before {
       content: "";
+
       position: fixed;
       inset: 0;
+
       pointer-events: none;
+
       opacity: 0.25;
+
       background-image:
-        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+        linear-gradient(
+          rgba(255, 255, 255, 0.025) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.025) 1px,
+          transparent 1px
+        );
+
       background-size: 32px 32px;
-      mask-image: linear-gradient(to bottom, black, transparent 85%);
+
+      mask-image:
+        linear-gradient(
+          to bottom,
+          black,
+          transparent 85%
+        );
     }
 
-    button, input, select { font: inherit; }
-    button { cursor: pointer; }
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
 
     .shell {
-      width: min(1220px, calc(100% - 32px));
+      width: min(
+        1220px,
+        calc(100% - 32px)
+      );
+
       margin: 0 auto;
       padding: 28px 0 52px;
     }
 
     .topbar {
       display: flex;
+
       align-items: center;
       justify-content: space-between;
+
       gap: 18px;
+
       margin-bottom: 42px;
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
+
       gap: 12px;
+
       font-weight: 760;
       letter-spacing: -0.02em;
     }
@@ -84,34 +156,61 @@
     .logo {
       width: 38px;
       height: 38px;
+
       display: grid;
       place-items: center;
+
       border-radius: 12px;
-      background: linear-gradient(145deg, rgba(102,227,196,.22), rgba(112,168,255,.2));
-      border: 1px solid rgba(102,227,196,.3);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 10px 28px rgba(0,0,0,.22);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(102, 227, 196, 0.22),
+          rgba(112, 168, 255, 0.2)
+        );
+
+      border:
+        1px solid rgba(102, 227, 196, 0.3);
+
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        0 10px 28px rgba(0, 0, 0, 0.22);
     }
 
     .brand small {
       display: block;
+
       margin-top: 2px;
+
       color: var(--muted);
+
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: .13em;
+
+      letter-spacing: 0.13em;
       text-transform: uppercase;
     }
 
     .runtime {
       display: flex;
       align-items: center;
+
       gap: 9px;
+
       padding: 9px 12px;
-      border: 1px solid var(--line);
+
+      border:
+        1px solid var(--line);
+
       border-radius: 999px;
+
       color: var(--soft);
-      background: rgba(8, 18, 34, .58);
+
+      background:
+        rgba(8, 18, 34, 0.58);
+
       backdrop-filter: blur(14px);
+
       font-size: 12px;
       font-weight: 650;
     }
@@ -119,109 +218,180 @@
     .runtime-dot {
       width: 8px;
       height: 8px;
+
       border-radius: 50%;
+
       background: var(--success);
-      box-shadow: 0 0 0 4px rgba(88,214,155,.10), 0 0 18px rgba(88,214,155,.62);
+
+      box-shadow:
+        0 0 0 4px rgba(88, 214, 155, 0.10),
+        0 0 18px rgba(88, 214, 155, 0.62);
     }
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+
+      grid-template-columns:
+        minmax(0, 0.9fr)
+        minmax(0, 1.1fr);
+
       align-items: end;
+
       gap: 40px;
+
       margin-bottom: 30px;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
+
       gap: 8px;
+
       margin-bottom: 14px;
+
       color: var(--accent);
+
       font-size: 12px;
       font-weight: 780;
-      letter-spacing: .12em;
+
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
     .eyebrow::before {
       content: "";
+
       width: 26px;
       height: 1px;
+
       background: var(--accent);
     }
 
     h1 {
       margin: 0;
+
       max-width: 760px;
-      font-size: clamp(38px, 6vw, 72px);
-      line-height: .98;
-      letter-spacing: -.055em;
+
+      font-size:
+        clamp(
+          38px,
+          6vw,
+          72px
+        );
+
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+
       font-weight: 820;
     }
 
     .hero p {
       margin: 0 0 6px;
+
       max-width: 560px;
+
       color: var(--muted);
-      font-size: clamp(15px, 2vw, 18px);
+
+      font-size:
+        clamp(
+          15px,
+          2vw,
+          18px
+        );
+
       line-height: 1.7;
     }
 
     .workspace {
       position: relative;
+
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(340px, .95fr);
+
+      grid-template-columns:
+        minmax(0, 1.05fr)
+        minmax(340px, 0.95fr);
+
       gap: 18px;
     }
 
     .panel {
-      border: 1px solid var(--line);
+      border:
+        1px solid var(--line);
+
       border-radius: var(--radius-xl);
-      background: linear-gradient(145deg, rgba(15, 29, 52, .92), rgba(10, 22, 41, .76));
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(15, 29, 52, 0.92),
+          rgba(10, 22, 41, 0.76)
+        );
+
       box-shadow: var(--shadow);
+
       backdrop-filter: blur(20px);
+
       overflow: hidden;
     }
 
     .panel-head {
       padding: 24px 26px 18px;
-      border-bottom: 1px solid var(--line);
+
+      border-bottom:
+        1px solid var(--line);
     }
 
     .panel-head-row {
       display: flex;
+
       align-items: center;
       justify-content: space-between;
+
       gap: 16px;
     }
 
     .panel h2 {
       margin: 0;
+
       font-size: 18px;
-      letter-spacing: -.02em;
+      letter-spacing: -0.02em;
     }
 
     .step {
       color: var(--muted);
+
       font-size: 12px;
       font-weight: 700;
     }
 
-    .form-body { padding: 24px 26px 26px; }
+    .form-body {
+      padding: 24px 26px 26px;
+    }
 
     .fields {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0, 1fr)
+        );
+
       gap: 16px;
     }
 
-    .field.full { grid-column: 1 / -1; }
+    .field.full {
+      grid-column: 1 / -1;
+    }
 
     label {
       display: block;
+
       margin-bottom: 8px;
+
       color: var(--soft);
+
       font-size: 12px;
       font-weight: 690;
     }
@@ -229,55 +399,98 @@
     .control {
       width: 100%;
       min-height: 50px;
+
       padding: 0 14px;
+
       color: var(--text);
-      background: rgba(5, 14, 28, .68);
-      border: 1px solid var(--line-strong);
+
+      background:
+        rgba(5, 14, 28, 0.68);
+
+      border:
+        1px solid var(--line-strong);
+
       border-radius: var(--radius-md);
+
       outline: none;
-      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+
+      transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
     }
 
-    .control:hover { border-color: rgba(148,163,184,.42); }
+    .control:hover {
+      border-color:
+        rgba(148, 163, 184, 0.42);
+    }
 
     .control:focus {
-      border-color: rgba(102,227,196,.66);
-      box-shadow: 0 0 0 4px rgba(102,227,196,.09);
-      background: rgba(5, 14, 28, .92);
+      border-color:
+        rgba(102, 227, 196, 0.66);
+
+      box-shadow:
+        0 0 0 4px rgba(102, 227, 196, 0.09);
+
+      background:
+        rgba(5, 14, 28, 0.92);
     }
 
-    select.control { appearance: auto; }
+    select.control {
+      appearance: auto;
+    }
 
     .product-meta {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+
+      grid-template-columns:
+        repeat(
+          4,
+          minmax(0, 1fr)
+        );
+
       gap: 9px;
+
       margin: 18px 0 20px;
     }
 
     .metric {
       min-width: 0;
+
       padding: 12px;
-      border: 1px solid var(--line);
+
+      border:
+        1px solid var(--line);
+
       border-radius: 13px;
-      background: rgba(5, 14, 28, .36);
+
+      background:
+        rgba(5, 14, 28, 0.36);
     }
 
     .metric span {
       display: block;
+
       color: var(--muted);
+
       font-size: 10px;
       font-weight: 700;
+
       text-transform: uppercase;
-      letter-spacing: .08em;
+      letter-spacing: 0.08em;
     }
 
     .metric strong {
       display: block;
+
       margin-top: 5px;
+
       overflow: hidden;
+
       color: var(--soft);
+
       font-size: 12px;
+
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -285,515 +498,2016 @@
     .actions {
       display: flex;
       align-items: center;
+
       gap: 10px;
+
       margin-top: 20px;
     }
 
     .primary {
       flex: 1;
+
       min-height: 52px;
+
       border: 0;
       border-radius: 14px;
+
       color: #06131a;
-      background: linear-gradient(100deg, var(--accent), #8ee8d1);
+
+      background:
+        linear-gradient(
+          100deg,
+          var(--accent),
+          #8ee8d1
+        );
+
       font-weight: 800;
-      letter-spacing: -.01em;
-      box-shadow: 0 14px 34px rgba(102,227,196,.18);
-      transition: transform .16s ease, filter .16s ease;
+      letter-spacing: -0.01em;
+
+      box-shadow:
+        0 14px 34px rgba(102, 227, 196, 0.18);
+
+      transition:
+        transform 0.16s ease,
+        filter 0.16s ease;
     }
 
-    .primary:hover { transform: translateY(-1px); filter: brightness(1.04); }
-    .primary:active { transform: translateY(0); }
-    .primary:disabled { cursor: wait; opacity: .68; }
+    .primary:hover {
+      transform:
+        translateY(-1px);
+
+      filter:
+        brightness(1.04);
+    }
+
+    .primary:active {
+      transform:
+        translateY(0);
+    }
+
+    .primary:disabled {
+      cursor: wait;
+      opacity: 0.68;
+    }
 
     .ghost {
       min-height: 52px;
+
       padding: 0 16px;
+
       color: var(--soft);
-      border: 1px solid var(--line-strong);
+
+      border:
+        1px solid var(--line-strong);
+
       border-radius: 14px;
-      background: rgba(5,14,28,.48);
+
+      background:
+        rgba(5, 14, 28, 0.48);
+
       font-weight: 720;
     }
 
     .result-panel {
       display: flex;
       flex-direction: column;
+
       min-height: 100%;
     }
 
     .result-body {
       display: flex;
       flex: 1;
+
       flex-direction: column;
       justify-content: center;
+
       padding: 30px;
     }
 
     .empty {
       max-width: 360px;
+
       margin: auto;
+
       text-align: center;
     }
 
-    .empty-icon, .result-icon {
+    .empty-icon,
+    .result-icon {
       width: 62px;
       height: 62px;
+
       display: grid;
       place-items: center;
+
       margin: 0 auto 18px;
-      border: 1px solid var(--line-strong);
+
+      border:
+        1px solid var(--line-strong);
+
       border-radius: 19px;
-      background: rgba(5,14,28,.52);
+
+      background:
+        rgba(5, 14, 28, 0.52);
+
       color: var(--accent);
     }
 
-    .empty h3, .decision h3 {
+    .empty h3,
+    .decision h3 {
       margin: 0;
+
       font-size: 24px;
-      letter-spacing: -.035em;
+      letter-spacing: -0.035em;
     }
 
-    .empty p, .decision-copy {
+    .empty p,
+    .decision-copy {
       margin: 10px 0 0;
+
       color: var(--muted);
+
       line-height: 1.65;
       font-size: 14px;
     }
 
-    .decision { display: none; }
-    .decision.visible { display: block; }
+    .decision {
+      display: none;
+    }
+
+    .decision.visible {
+      display: block;
+    }
 
     .decision-top {
       display: flex;
       align-items: flex-start;
+
       gap: 16px;
     }
 
     .decision-top .result-icon {
       flex: 0 0 auto;
+
       width: 54px;
       height: 54px;
+
       margin: 0;
+
       border-radius: 16px;
     }
 
     .decision.eligible .result-icon {
       color: var(--success);
-      border-color: rgba(88,214,155,.34);
-      background: rgba(88,214,155,.08);
+
+      border-color:
+        rgba(88, 214, 155, 0.34);
+
+      background:
+        rgba(88, 214, 155, 0.08);
     }
 
     .decision.declined .result-icon {
       color: var(--danger);
-      border-color: rgba(255,127,136,.32);
-      background: rgba(255,127,136,.07);
+
+      border-color:
+        rgba(255, 127, 136, 0.32);
+
+      background:
+        rgba(255, 127, 136, 0.07);
     }
 
     .decision-badge {
       display: inline-flex;
+
       margin-bottom: 7px;
+
       padding: 5px 9px;
+
       border-radius: 999px;
+
       font-size: 10px;
       font-weight: 800;
-      letter-spacing: .1em;
+
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      background: rgba(148,163,184,.1);
+
+      background:
+        rgba(148, 163, 184, 0.1);
+
       color: var(--soft);
     }
 
-    .eligible .decision-badge { color: var(--success); background: rgba(88,214,155,.09); }
-    .declined .decision-badge { color: var(--danger); background: rgba(255,127,136,.09); }
+    .eligible .decision-badge {
+      color: var(--success);
+
+      background:
+        rgba(88, 214, 155, 0.09);
+    }
+
+    .declined .decision-badge {
+      color: var(--danger);
+
+      background:
+        rgba(255, 127, 136, 0.09);
+    }
 
     .result-stats {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0, 1fr)
+        );
+
       gap: 10px;
+
       margin-top: 24px;
     }
 
     .result-stat {
       padding: 15px;
-      border: 1px solid var(--line);
+
+      border:
+        1px solid var(--line);
+
       border-radius: 15px;
-      background: rgba(5,14,28,.4);
+
+      background:
+        rgba(5, 14, 28, 0.4);
     }
 
     .result-stat span {
       display: block;
+
       color: var(--muted);
+
       font-size: 11px;
     }
 
     .result-stat strong {
       display: block;
+
       margin-top: 6px;
+
       color: var(--text);
+
       font-size: 16px;
+    }
+
+    /* ---------------------------------------------
+       FEATURE 1:
+       Explainable eligibility policy checks
+       --------------------------------------------- */
+
+    .policy-section {
+      margin-top: 24px;
+    }
+
+    .policy-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      margin-bottom: 10px;
+    }
+
+    .policy-head strong {
+      color: var(--soft);
+
+      font-size: 11px;
+
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .policy-head span {
+      color: var(--muted);
+
+      font-size: 11px;
+    }
+
+    .policy-checks {
+      display: grid;
+
+      gap: 9px;
+    }
+
+    .policy-check {
+      display: grid;
+
+      grid-template-columns:
+        28px
+        minmax(0, 1fr)
+        auto;
+
+      align-items: center;
+
+      gap: 10px;
+
+      padding: 11px 12px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius: 12px;
+
+      background:
+        rgba(5, 14, 28, 0.4);
+    }
+
+    .policy-check-icon {
+      width: 28px;
+      height: 28px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 9px;
+
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .policy-check.pass .policy-check-icon {
+      color: var(--success);
+
+      background:
+        rgba(88, 214, 155, 0.09);
+    }
+
+    .policy-check.fail .policy-check-icon {
+      color: var(--danger);
+
+      background:
+        rgba(255, 127, 136, 0.09);
+    }
+
+    .policy-check-copy strong {
+      display: block;
+
+      color: var(--text);
+
+      font-size: 12px;
+    }
+
+    .policy-check-copy span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .policy-check-status {
+      font-size: 10px;
+      font-weight: 850;
+
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .policy-check.pass .policy-check-status {
+      color: var(--success);
+    }
+
+    .policy-check.fail .policy-check-status {
+      color: var(--danger);
     }
 
     .reasons {
       display: grid;
+
       gap: 9px;
-      margin: 24px 0 0;
+
+      margin: 18px 0 0;
+
       padding: 0;
+
       list-style: none;
     }
 
     .reasons li {
       display: flex;
+
       gap: 9px;
+
       align-items: flex-start;
+
       padding: 11px 12px;
-      border: 1px solid rgba(255,127,136,.18);
+
+      border:
+        1px solid rgba(255, 127, 136, 0.18);
+
       border-radius: 12px;
+
       color: #ffd2d5;
-      background: rgba(255,127,136,.055);
+
+      background:
+        rgba(255, 127, 136, 0.055);
+
       font-size: 12px;
       line-height: 1.5;
     }
 
     .footnote {
       display: flex;
+
       justify-content: space-between;
+
       gap: 16px;
+
       margin-top: 17px;
+
       padding: 0 4px;
+
       color: #718096;
+
       font-size: 11px;
     }
 
     .loader {
       width: 16px;
       height: 16px;
+
       display: inline-block;
+
       margin-right: 8px;
+
       vertical-align: -3px;
-      border: 2px solid rgba(6,19,26,.28);
+
+      border:
+        2px solid rgba(6, 19, 26, 0.28);
+
       border-top-color: #06131a;
+
       border-radius: 50%;
-      animation: spin .72s linear infinite;
+
+      animation:
+        spin 0.72s linear infinite;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
     @media (max-width: 980px) {
-      .hero { grid-template-columns: 1fr; gap: 18px; align-items: start; }
-      .workspace { grid-template-columns: 1fr; }
-      .result-panel { min-height: 390px; }
+      .hero {
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+
+        align-items: start;
+      }
+
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .result-panel {
+        min-height: 390px;
+      }
     }
 
     @media (max-width: 680px) {
-      .shell { width: min(100% - 20px, 1220px); padding-top: 18px; }
-      .topbar { margin-bottom: 30px; }
-      .runtime { max-width: 48%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-      .hero { margin-bottom: 24px; }
-      .fields { grid-template-columns: 1fr; }
-      .field.full { grid-column: auto; }
-      .product-meta { grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .panel { border-radius: 22px; }
-      .panel-head, .form-body { padding-left: 18px; padding-right: 18px; }
-      .result-body { padding: 24px 18px; }
-      .actions { flex-direction: column; }
-      .primary, .ghost { width: 100%; }
-      .footnote { flex-direction: column; gap: 5px; }
+      .shell {
+        width:
+          min(
+            calc(100% - 20px),
+            1220px
+          );
+
+        padding-top: 18px;
+      }
+
+      .topbar {
+        margin-bottom: 30px;
+      }
+
+      .runtime {
+        max-width: 48%;
+
+        overflow: hidden;
+
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .hero {
+        margin-bottom: 24px;
+      }
+
+      .fields {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .product-meta {
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0, 1fr)
+          );
+      }
+
+      .panel {
+        border-radius: 22px;
+      }
+
+      .panel-head,
+      .form-body {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .result-body {
+        padding: 24px 18px;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .primary,
+      .ghost {
+        width: 100%;
+      }
+
+      .policy-check {
+        grid-template-columns:
+          28px
+          minmax(0, 1fr);
+
+        align-items: start;
+      }
+
+      .policy-check-status {
+        grid-column: 2;
+      }
+
+      .footnote {
+        flex-direction: column;
+
+        gap: 5px;
+      }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    @media (
+      prefers-reduced-motion: reduce
+    ) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior:
+          auto !important;
+
+        animation-duration:
+          0.01ms !important;
+
+        animation-iteration-count:
+          1 !important;
+
+        transition-duration:
+          0.01ms !important;
+      }
     }
   </style>
 </head>
+
 <body>
   <main class="shell">
+
     <header class="topbar">
-      <div class="brand" aria-label="Beacon">
-        <div class="logo" aria-hidden="true">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
-            <path d="M12 3.5 18.5 7v7L12 20.5 5.5 14V7L12 3.5Z" stroke="currentColor" stroke-width="1.7"/>
-            <path d="m8.4 12.1 2.25 2.25 4.95-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <div
+        class="brand"
+        aria-label="Beacon"
+      >
+
+        <div
+          class="logo"
+          aria-hidden="true"
+        >
+          <svg
+            width="21"
+            height="21"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M12 3.5 18.5 7v7L12 20.5 5.5 14V7L12 3.5Z"
+              stroke="currentColor"
+              stroke-width="1.7"
+            />
+
+            <path
+              d="m8.4 12.1 2.25 2.25 4.95-5"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </div>
-        <div>Beacon<small>Eligibility Platform</small></div>
+
+        <div>
+          Beacon
+
+          <small>
+            Eligibility Platform
+          </small>
+        </div>
       </div>
-      <div class="runtime" title="Runtime information">
-        <span class="runtime-dot" aria-hidden="true"></span>
-        <span id="runtimeText">Connecting…</span>
+
+
+      <div
+        class="runtime"
+        title="Runtime information"
+      >
+
+        <span
+          class="runtime-dot"
+          aria-hidden="true"
+        ></span>
+
+        <span id="runtimeText">
+          Connecting…
+        </span>
+
       </div>
+
     </header>
 
+
     <section class="hero">
+
       <div>
-        <div class="eyebrow">Loan decision workspace</div>
-        <h1>Eligibility, made immediate.</h1>
+
+        <div class="eyebrow">
+          Loan decision workspace
+        </div>
+
+        <h1>
+          Eligibility, made immediate.
+        </h1>
+
       </div>
-      <p>Explore live loan-product rules and run an eligibility decision against the same services promoted through Beacon's DEV → PROD release pipeline.</p>
+
+
+      <p>
+        Explore live loan-product rules
+        and run an eligibility decision
+        against the same services promoted
+        through Beacon's DEV → PROD
+        release pipeline.
+      </p>
+
     </section>
+
 
     <section class="workspace">
-      <form class="panel" id="eligibilityForm">
+
+      <form
+        class="panel"
+        id="eligibilityForm"
+      >
+
         <div class="panel-head">
+
           <div class="panel-head-row">
-            <h2>Applicant &amp; product</h2>
-            <span class="step">01 · Evaluate</span>
-          </div>
-        </div>
-        <div class="form-body">
-          <div class="fields">
-            <div class="field full">
-              <label for="product">Loan product</label>
-              <select class="control" id="product" name="product_code" required>
-                <option value="">Loading products…</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="amount">Requested amount (₹)</label>
-              <input class="control" id="amount" name="requested_amount" type="number" min="1" step="1000" value="150000" required>
-            </div>
-            <div class="field">
-              <label for="income">Monthly income (₹)</label>
-              <input class="control" id="income" name="monthly_income" type="number" min="0" step="1000" value="55000" required>
-            </div>
-            <div class="field">
-              <label for="score">Credit score</label>
-              <input class="control" id="score" name="credit_score" type="number" min="300" max="900" value="720" required>
-            </div>
-            <div class="field">
-              <label for="employment">Employment type</label>
-              <select class="control" id="employment" name="employment_type" required>
-                <option value="SALARIED">Salaried</option>
-                <option value="SELF_EMPLOYED">Self-employed</option>
-                <option value="STUDENT">Student</option>
-              </select>
-            </div>
+
+            <h2>
+              Applicant &amp; product
+            </h2>
+
+            <span class="step">
+              01 · Evaluate
+            </span>
+
           </div>
 
-          <div class="product-meta" id="productMeta" aria-live="polite">
-            <div class="metric"><span>Amount range</span><strong>—</strong></div>
-            <div class="metric"><span>Min. score</span><strong>—</strong></div>
-            <div class="metric"><span>Min. income</span><strong>—</strong></div>
-            <div class="metric"><span>Processing fee</span><strong>—</strong></div>
+        </div>
+
+
+        <div class="form-body">
+
+          <div class="fields">
+
+            <div class="field full">
+
+              <label for="product">
+                Loan product
+              </label>
+
+              <select
+                class="control"
+                id="product"
+                name="product_code"
+                required
+              >
+                <option value="">
+                  Loading products…
+                </option>
+              </select>
+
+            </div>
+
+
+            <div class="field">
+
+              <label for="amount">
+                Requested amount (₹)
+              </label>
+
+              <input
+                class="control"
+                id="amount"
+                name="requested_amount"
+                type="number"
+                min="1"
+                step="1000"
+                value="150000"
+                required
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label for="income">
+                Monthly income (₹)
+              </label>
+
+              <input
+                class="control"
+                id="income"
+                name="monthly_income"
+                type="number"
+                min="0"
+                step="1000"
+                value="55000"
+                required
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label for="score">
+                Credit score
+              </label>
+
+              <input
+                class="control"
+                id="score"
+                name="credit_score"
+                type="number"
+                min="300"
+                max="900"
+                value="720"
+                required
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label for="employment">
+                Employment type
+              </label>
+
+              <select
+                class="control"
+                id="employment"
+                name="employment_type"
+                required
+              >
+
+                <option value="SALARIED">
+                  Salaried
+                </option>
+
+                <option value="SELF_EMPLOYED">
+                  Self-employed
+                </option>
+
+                <option value="STUDENT">
+                  Student
+                </option>
+
+              </select>
+
+            </div>
+
           </div>
+
+
+          <div
+            class="product-meta"
+            id="productMeta"
+            aria-live="polite"
+          >
+
+            <div class="metric">
+
+              <span>
+                Amount range
+              </span>
+
+              <strong>
+                —
+              </strong>
+
+            </div>
+
+
+            <div class="metric">
+
+              <span>
+                Min. score
+              </span>
+
+              <strong>
+                —
+              </strong>
+
+            </div>
+
+
+            <div class="metric">
+
+              <span>
+                Min. income
+              </span>
+
+              <strong>
+                —
+              </strong>
+
+            </div>
+
+
+            <div class="metric">
+
+              <span>
+                Processing fee
+              </span>
+
+              <strong>
+                —
+              </strong>
+
+            </div>
+
+          </div>
+
 
           <div class="actions">
-            <button class="primary" id="submitButton" type="submit">Check eligibility</button>
-            <button class="ghost" id="demoButton" type="button">Load decline case</button>
+
+            <button
+              class="primary"
+              id="submitButton"
+              type="submit"
+            >
+              Check eligibility
+            </button>
+
+
+            <button
+              class="ghost"
+              id="demoButton"
+              type="button"
+            >
+              Load decline case
+            </button>
+
           </div>
+
         </div>
+
       </form>
 
-      <aside class="panel result-panel" aria-live="polite" aria-atomic="true">
+
+      <aside
+        class="panel result-panel"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+
         <div class="panel-head">
+
           <div class="panel-head-row">
-            <h2>Decision</h2>
-            <span class="step">02 · Result</span>
-          </div>
-        </div>
-        <div class="result-body">
-          <div class="empty" id="emptyState">
-            <div class="empty-icon" aria-hidden="true">
-              <svg width="27" height="27" viewBox="0 0 24 24" fill="none">
-                <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.64 5.64l2.12 2.12M16.24 16.24l2.12 2.12M18.36 5.64l-2.12 2.12M7.76 16.24l-2.12 2.12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                <circle cx="12" cy="12" r="3.25" stroke="currentColor" stroke-width="1.6"/>
-              </svg>
-            </div>
-            <h3>Ready when you are.</h3>
-            <p>Choose a product, provide the applicant profile, and Beacon will return the live policy decision.</p>
+
+            <h2>
+              Decision
+            </h2>
+
+            <span class="step">
+              02 · Result
+            </span>
+
           </div>
 
-          <div class="decision" id="decisionState">
-            <div class="decision-top">
-              <div class="result-icon" id="resultIcon" aria-hidden="true"></div>
-              <div>
-                <span class="decision-badge" id="decisionBadge">Decision</span>
-                <h3 id="decisionTitle">—</h3>
-                <p class="decision-copy" id="decisionCopy">—</p>
-              </div>
-            </div>
-            <div class="result-stats" id="resultStats"></div>
-            <ul class="reasons" id="reasonList"></ul>
-          </div>
         </div>
+
+
+        <div class="result-body">
+
+          <div
+            class="empty"
+            id="emptyState"
+          >
+
+            <div
+              class="empty-icon"
+              aria-hidden="true"
+            >
+
+              <svg
+                width="27"
+                height="27"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+
+                <path
+                  d="M12 3v3M12 18v3M3 12h3M18 12h3M5.64 5.64l2.12 2.12M16.24 16.24l2.12 2.12M18.36 5.64l-2.12 2.12M7.76 16.24l-2.12 2.12"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                />
+
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3.25"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                />
+
+              </svg>
+
+            </div>
+
+
+            <h3>
+              Ready when you are.
+            </h3>
+
+            <p>
+              Choose a product,
+              provide the applicant profile,
+              and Beacon will return the
+              live policy decision.
+            </p>
+
+          </div>
+
+
+          <div
+            class="decision"
+            id="decisionState"
+          >
+
+            <div class="decision-top">
+
+              <div
+                class="result-icon"
+                id="resultIcon"
+                aria-hidden="true"
+              ></div>
+
+
+              <div>
+
+                <span
+                  class="decision-badge"
+                  id="decisionBadge"
+                >
+                  Decision
+                </span>
+
+                <h3 id="decisionTitle">
+                  —
+                </h3>
+
+                <p
+                  class="decision-copy"
+                  id="decisionCopy"
+                >
+                  —
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="result-stats"
+              id="resultStats"
+            ></div>
+
+
+            <!-- FEATURE 1 -->
+            <section
+              class="policy-section"
+              id="policySection"
+              hidden
+            >
+
+              <div class="policy-head">
+
+                <strong>
+                  Policy checks
+                </strong>
+
+                <span id="policySummary">
+                  —
+                </span>
+
+              </div>
+
+
+              <div
+                class="policy-checks"
+                id="policyChecks"
+              ></div>
+
+            </section>
+
+
+            <ul
+              class="reasons"
+              id="reasonList"
+            ></ul>
+
+          </div>
+
+        </div>
+
       </aside>
+
     </section>
 
+
     <footer class="footnote">
-      <span>Beacon · Loan Product Configuration &amp; Eligibility Release Platform</span>
-      <span>Demo decisions only · No customer data is stored</span>
+
+      <span>
+        Beacon · Loan Product
+        Configuration &amp;
+        Eligibility Release Platform
+      </span>
+
+      <span>
+        Demo decisions only ·
+        No customer data is stored
+      </span>
+
     </footer>
+
   </main>
 
+
   <script>
-    const state = { products: [] };
-    const form = document.getElementById('eligibilityForm');
-    const productSelect = document.getElementById('product');
-    const productMeta = document.getElementById('productMeta');
-    const submitButton = document.getElementById('submitButton');
-    const demoButton = document.getElementById('demoButton');
-    const emptyState = document.getElementById('emptyState');
-    const decisionState = document.getElementById('decisionState');
-    const decisionBadge = document.getElementById('decisionBadge');
-    const decisionTitle = document.getElementById('decisionTitle');
-    const decisionCopy = document.getElementById('decisionCopy');
-    const resultIcon = document.getElementById('resultIcon');
-    const resultStats = document.getElementById('resultStats');
-    const reasonList = document.getElementById('reasonList');
-    const runtimeText = document.getElementById('runtimeText');
-
-    const money = value => new Intl.NumberFormat('en-IN', {
-      style: 'currency', currency: 'INR', maximumFractionDigits: 0
-    }).format(Number(value));
-
-    const reasonText = {
-      amount_out_of_range: 'Requested amount is outside this product’s supported range.',
-      credit_score_below_threshold: 'Credit score is below the minimum policy threshold.',
-      income_below_threshold: 'Monthly income is below the minimum policy threshold.',
-      employment_type_not_supported: 'This employment type is not supported for the selected product.'
+    const state = {
+      products: []
     };
 
+
+    const form =
+      document.getElementById(
+        'eligibilityForm'
+      );
+
+
+    const productSelect =
+      document.getElementById(
+        'product'
+      );
+
+
+    const productMeta =
+      document.getElementById(
+        'productMeta'
+      );
+
+
+    const submitButton =
+      document.getElementById(
+        'submitButton'
+      );
+
+
+    const demoButton =
+      document.getElementById(
+        'demoButton'
+      );
+
+
+    const emptyState =
+      document.getElementById(
+        'emptyState'
+      );
+
+
+    const decisionState =
+      document.getElementById(
+        'decisionState'
+      );
+
+
+    const decisionBadge =
+      document.getElementById(
+        'decisionBadge'
+      );
+
+
+    const decisionTitle =
+      document.getElementById(
+        'decisionTitle'
+      );
+
+
+    const decisionCopy =
+      document.getElementById(
+        'decisionCopy'
+      );
+
+
+    const resultIcon =
+      document.getElementById(
+        'resultIcon'
+      );
+
+
+    const resultStats =
+      document.getElementById(
+        'resultStats'
+      );
+
+
+    const policySection =
+      document.getElementById(
+        'policySection'
+      );
+
+
+    const policySummary =
+      document.getElementById(
+        'policySummary'
+      );
+
+
+    const policyChecks =
+      document.getElementById(
+        'policyChecks'
+      );
+
+
+    const reasonList =
+      document.getElementById(
+        'reasonList'
+      );
+
+
+    const runtimeText =
+      document.getElementById(
+        'runtimeText'
+      );
+
+
+    const money = value =>
+      new Intl.NumberFormat(
+        'en-IN',
+        {
+          style: 'currency',
+          currency: 'INR',
+          maximumFractionDigits: 0
+        }
+      ).format(
+        Number(value)
+      );
+
+
+    const reasonText = {
+      amount_out_of_range:
+        'Requested amount is outside this product’s supported range.',
+
+      credit_score_below_threshold:
+        'Credit score is below the minimum policy threshold.',
+
+      income_below_threshold:
+        'Monthly income is below the minimum policy threshold.',
+
+      employment_type_not_supported:
+        'This employment type is not supported for the selected product.'
+    };
+
+
     function currentProduct() {
-      return state.products.find(p => p.code === productSelect.value);
+      return state.products.find(
+        product =>
+          product.code === productSelect.value
+      );
     }
 
+
     function setProductMeta() {
-      const p = currentProduct();
-      const values = p ? [
-        `${money(p.min_amount)} – ${money(p.max_amount)}`,
-        String(p.min_credit_score),
-        money(p.min_monthly_income),
-        `${p.processing_fee_percent}%`
-      ] : ['—', '—', '—', '—'];
-      [...productMeta.querySelectorAll('strong')].forEach((el, i) => el.textContent = values[i]);
-      if (p) {
-        document.getElementById('amount').min = p.min_amount;
-        document.getElementById('amount').max = p.max_amount * 2;
+      const product =
+        currentProduct();
+
+
+      const values =
+        product
+          ? [
+              `${money(product.min_amount)} – ${money(product.max_amount)}`,
+              String(product.min_credit_score),
+              money(product.min_monthly_income),
+              `${product.processing_fee_percent}%`
+            ]
+          : [
+              '—',
+              '—',
+              '—',
+              '—'
+            ];
+
+
+      [
+        ...productMeta.querySelectorAll(
+          'strong'
+        )
+      ].forEach(
+        (element, index) => {
+          element.textContent =
+            values[index];
+        }
+      );
+
+
+      if (product) {
+        document.getElementById(
+          'amount'
+        ).min =
+          product.min_amount;
+
+
+        document.getElementById(
+          'amount'
+        ).max =
+          product.max_amount * 2;
       }
     }
+
 
     function icon(type) {
       return type === 'eligible'
-        ? '<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.2 4.2L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-        : '<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M7.5 7.5 16.5 16.5M16.5 7.5l-9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+
+        ? `
+          <svg
+            width="26"
+            height="26"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="m5 12.5 4.2 4.2L19 7"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        `
+
+        : `
+          <svg
+            width="26"
+            height="26"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M7.5 7.5 16.5 16.5M16.5 7.5l-9 9"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        `;
     }
 
+
+    /* ---------------------------------------------
+       FEATURE 1
+       Turn backend checks[] into readable UI rows.
+       --------------------------------------------- */
+
+    function describeCheck(check) {
+
+      if (
+        check.rule
+        === 'requested_amount'
+      ) {
+        return {
+          label:
+            'Requested amount',
+
+          detail:
+            `${money(check.actual)} · policy ${money(check.minimum)} – ${money(check.maximum)}`
+        };
+      }
+
+
+      if (
+        check.rule
+        === 'credit_score'
+      ) {
+        return {
+          label:
+            'Credit score',
+
+          detail:
+            `${check.actual} · minimum ${check.minimum}`
+        };
+      }
+
+
+      if (
+        check.rule
+        === 'monthly_income'
+      ) {
+        return {
+          label:
+            'Monthly income',
+
+          detail:
+            `${money(check.actual)} · minimum ${money(check.minimum)}`
+        };
+      }
+
+
+      if (
+        check.rule
+        === 'employment_type'
+      ) {
+        const allowed =
+          Array.isArray(
+            check.allowed
+          )
+            ? check.allowed.join(', ')
+            : '—';
+
+
+        return {
+          label:
+            'Employment type',
+
+          detail:
+            `${String(check.actual).replaceAll('_', ' ')} · allowed ${allowed.replaceAll('_', ' ')}`
+        };
+      }
+
+
+      return {
+        label:
+          String(
+            check.rule
+            || 'Policy rule'
+          ).replaceAll(
+            '_',
+            ' '
+          ),
+
+        detail: ''
+      };
+    }
+
+
+    function renderPolicyChecks(
+      checks
+    ) {
+      policyChecks.innerHTML = '';
+
+
+      if (
+        !Array.isArray(checks)
+        || !checks.length
+      ) {
+        policySection.hidden = true;
+
+        return;
+      }
+
+
+      const passed =
+        checks.filter(
+          check =>
+            check.passed
+        ).length;
+
+
+      policySummary.textContent =
+        `${passed}/${checks.length} passed`;
+
+
+      policySection.hidden =
+        false;
+
+
+      checks.forEach(
+        check => {
+
+          const row =
+            document.createElement(
+              'div'
+            );
+
+
+          row.className =
+            `policy-check ${
+              check.passed
+                ? 'pass'
+                : 'fail'
+            }`;
+
+
+          const marker =
+            document.createElement(
+              'div'
+            );
+
+
+          marker.className =
+            'policy-check-icon';
+
+
+          marker.textContent =
+            check.passed
+              ? '✓'
+              : '×';
+
+
+          const copy =
+            document.createElement(
+              'div'
+            );
+
+
+          copy.className =
+            'policy-check-copy';
+
+
+          const title =
+            document.createElement(
+              'strong'
+            );
+
+
+          const detail =
+            document.createElement(
+              'span'
+            );
+
+
+          const description =
+            describeCheck(
+              check
+            );
+
+
+          title.textContent =
+            description.label;
+
+
+          detail.textContent =
+            description.detail;
+
+
+          copy.append(
+            title,
+            detail
+          );
+
+
+          const status =
+            document.createElement(
+              'span'
+            );
+
+
+          status.className =
+            'policy-check-status';
+
+
+          status.textContent =
+            check.passed
+              ? 'Pass'
+              : 'Fail';
+
+
+          row.append(
+            marker,
+            copy,
+            status
+          );
+
+
+          policyChecks.appendChild(
+            row
+          );
+        }
+      );
+    }
+
+
     function showDecision(data) {
-      emptyState.style.display = 'none';
-      decisionState.className = `decision visible ${data.eligible ? 'eligible' : 'declined'}`;
-      resultIcon.innerHTML = icon(data.eligible ? 'eligible' : 'declined');
+
+      emptyState.style.display =
+        'none';
+
+
+      decisionState.className =
+        `decision visible ${
+          data.eligible
+            ? 'eligible'
+            : 'declined'
+        }`;
+
+
+      resultIcon.innerHTML =
+        icon(
+          data.eligible
+            ? 'eligible'
+            : 'declined'
+        );
+
+
       reasonList.innerHTML = '';
       resultStats.innerHTML = '';
 
+
+      renderPolicyChecks(
+        data.checks
+      );
+
+
       if (data.eligible) {
-        decisionBadge.textContent = 'Eligible';
-        decisionTitle.textContent = 'Policy checks passed';
-        decisionCopy.textContent = `${data.product_name || data.product_code} is eligible for the submitted applicant profile.`;
-        const tenures = Array.isArray(data.available_tenures_months) ? data.available_tenures_months.join(', ') : '—';
+
+        decisionBadge.textContent =
+          'Eligible';
+
+
+        decisionTitle.textContent =
+          'Policy checks passed';
+
+
+        decisionCopy.textContent =
+          `${
+            data.product_name
+            || data.product_code
+          } is eligible for the submitted applicant profile.`;
+
+
+        const tenures =
+          Array.isArray(
+            data.available_tenures_months
+          )
+            ? data
+                .available_tenures_months
+                .join(', ')
+            : '—';
+
+
         resultStats.innerHTML = `
-          <div class="result-stat"><span>Approved amount</span><strong>${money(data.approved_amount)}</strong></div>
-          <div class="result-stat"><span>Processing fee</span><strong>${data.processing_fee_percent}%</strong></div>
-          <div class="result-stat"><span>Available tenures</span><strong>${tenures} mo</strong></div>
-          <div class="result-stat"><span>Product</span><strong>${data.product_code}</strong></div>`;
+          <div class="result-stat">
+            <span>
+              Approved amount
+            </span>
+
+            <strong>
+              ${money(data.approved_amount)}
+            </strong>
+          </div>
+
+          <div class="result-stat">
+            <span>
+              Processing fee
+            </span>
+
+            <strong>
+              ${data.processing_fee_percent}%
+            </strong>
+          </div>
+
+          <div class="result-stat">
+            <span>
+              Available tenures
+            </span>
+
+            <strong>
+              ${tenures} mo
+            </strong>
+          </div>
+
+          <div class="result-stat">
+            <span>
+              Product
+            </span>
+
+            <strong>
+              ${data.product_code}
+            </strong>
+          </div>
+        `;
+
       } else {
-        decisionBadge.textContent = 'Not eligible';
-        decisionTitle.textContent = 'Policy checks need attention';
-        decisionCopy.textContent = 'The application does not currently meet the selected product’s eligibility rules.';
-        const reasons = data.reasons || [data.reason || data.error || 'unknown_error'];
-        reasons.forEach(reason => {
-          const li = document.createElement('li');
-          li.textContent = reasonText[reason] || reason.replaceAll('_', ' ');
-          reasonList.appendChild(li);
-        });
+
+        decisionBadge.textContent =
+          'Not eligible';
+
+
+        decisionTitle.textContent =
+          'Policy checks need attention';
+
+
+        decisionCopy.textContent =
+          'The application does not currently meet the selected product’s eligibility rules.';
+
+
+        const reasons =
+          data.reasons
+          || [
+            data.reason
+            || data.error
+            || 'unknown_error'
+          ];
+
+
+        reasons.forEach(
+          reason => {
+
+            const item =
+              document.createElement(
+                'li'
+              );
+
+
+            item.textContent =
+              reasonText[reason]
+              || String(reason)
+                .replaceAll(
+                  '_',
+                  ' '
+                );
+
+
+            reasonList.appendChild(
+              item
+            );
+          }
+        );
       }
     }
+
 
     function showError(message) {
-      showDecision({ eligible: false, reasons: [message] });
-      decisionTitle.textContent = 'Unable to complete check';
-      decisionCopy.textContent = 'Beacon could not complete the eligibility request. Please try again.';
+
+      showDecision({
+        eligible: false,
+        reasons: [
+          message
+        ]
+      });
+
+
+      decisionTitle.textContent =
+        'Unable to complete check';
+
+
+      decisionCopy.textContent =
+        'Beacon could not complete the eligibility request. Please try again.';
     }
+
 
     async function loadRuntime() {
+
       try {
-        const response = await fetch('/version', { cache: 'no-store' });
-        const data = await response.json();
-        runtimeText.textContent = `${String(data.environment).toUpperCase()} · v${data.version}`;
+
+        const response =
+          await fetch(
+            '/version',
+            {
+              cache: 'no-store'
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        runtimeText.textContent =
+          `${String(data.environment).toUpperCase()} · v${data.version}`;
+
       } catch (_) {
-        runtimeText.textContent = 'Service online';
+
+        runtimeText.textContent =
+          'Service online';
       }
     }
+
 
     async function loadProducts() {
+
       try {
-        const response = await fetch('/products', { cache: 'no-store' });
-        if (!response.ok) throw new Error('catalog_unavailable');
-        const data = await response.json();
-        state.products = Array.isArray(data.products) ? data.products : [];
-        productSelect.innerHTML = '';
-        state.products.forEach(product => {
-          const option = document.createElement('option');
-          option.value = product.code;
-          option.textContent = `${product.name} · ${product.code}`;
-          productSelect.appendChild(option);
-        });
-        if (!state.products.length) throw new Error('empty_catalog');
-        productSelect.value = state.products[0].code;
+
+        const response =
+          await fetch(
+            '/products',
+            {
+              cache: 'no-store'
+            }
+          );
+
+
+        if (!response.ok) {
+          throw new Error(
+            'catalog_unavailable'
+          );
+        }
+
+
+        const data =
+          await response.json();
+
+
+        state.products =
+          Array.isArray(
+            data.products
+          )
+            ? data.products
+            : [];
+
+
+        productSelect.innerHTML =
+          '';
+
+
+        state.products.forEach(
+          product => {
+
+            const option =
+              document.createElement(
+                'option'
+              );
+
+
+            option.value =
+              product.code;
+
+
+            option.textContent =
+              `${product.name} · ${product.code}`;
+
+
+            productSelect.appendChild(
+              option
+            );
+          }
+        );
+
+
+        if (
+          !state.products.length
+        ) {
+          throw new Error(
+            'empty_catalog'
+          );
+        }
+
+
+        productSelect.value =
+          state.products[0].code;
+
+
         setProductMeta();
+
       } catch (_) {
-        productSelect.innerHTML = '<option value="">Product catalog unavailable</option>';
-        productSelect.disabled = true;
-        submitButton.disabled = true;
-        showError('loan_product_service_unavailable');
+
+        productSelect.innerHTML =
+          '<option value="">Product catalog unavailable</option>';
+
+
+        productSelect.disabled =
+          true;
+
+
+        submitButton.disabled =
+          true;
+
+
+        showError(
+          'loan_product_service_unavailable'
+        );
       }
     }
 
-    productSelect.addEventListener('change', setProductMeta);
 
-    demoButton.addEventListener('click', () => {
-      if (state.products.length) productSelect.value = state.products[0].code;
-      document.getElementById('amount').value = '500000';
-      document.getElementById('income').value = '10000';
-      document.getElementById('score').value = '620';
-      document.getElementById('employment').value = 'STUDENT';
-      setProductMeta();
-      emptyState.style.display = '';
-      decisionState.className = 'decision';
-    });
+    productSelect.addEventListener(
+      'change',
+      setProductMeta
+    );
 
-    form.addEventListener('submit', async event => {
-      event.preventDefault();
-      if (!form.reportValidity()) return;
 
-      const payload = {
-        product_code: productSelect.value,
-        requested_amount: Number(document.getElementById('amount').value),
-        monthly_income: Number(document.getElementById('income').value),
-        credit_score: Number(document.getElementById('score').value),
-        employment_type: document.getElementById('employment').value
-      };
+    demoButton.addEventListener(
+      'click',
+      () => {
 
-      const oldLabel = submitButton.textContent;
-      submitButton.disabled = true;
-      submitButton.innerHTML = '<span class="loader"></span>Evaluating…';
+        if (
+          state.products.length
+        ) {
+          productSelect.value =
+            state.products[0].code;
+        }
 
-      try {
-        const response = await fetch('/eligibility', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const data = await response.json();
-        showDecision(data);
-      } catch (_) {
-        showError('service_unavailable');
-      } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = oldLabel;
+
+        document.getElementById(
+          'amount'
+        ).value =
+          '500000';
+
+
+        document.getElementById(
+          'income'
+        ).value =
+          '10000';
+
+
+        document.getElementById(
+          'score'
+        ).value =
+          '620';
+
+
+        document.getElementById(
+          'employment'
+        ).value =
+          'STUDENT';
+
+
+        setProductMeta();
+
+
+        emptyState.style.display =
+          '';
+
+
+        decisionState.className =
+          'decision';
       }
-    });
+    );
+
+
+    form.addEventListener(
+      'submit',
+      async event => {
+
+        event.preventDefault();
+
+
+        if (
+          !form.reportValidity()
+        ) {
+          return;
+        }
+
+
+        const payload = {
+
+          product_code:
+            productSelect.value,
+
+
+          requested_amount:
+            Number(
+              document.getElementById(
+                'amount'
+              ).value
+            ),
+
+
+          monthly_income:
+            Number(
+              document.getElementById(
+                'income'
+              ).value
+            ),
+
+
+          credit_score:
+            Number(
+              document.getElementById(
+                'score'
+              ).value
+            ),
+
+
+          employment_type:
+            document.getElementById(
+              'employment'
+            ).value
+        };
+
+
+        const oldLabel =
+          submitButton.textContent;
+
+
+        submitButton.disabled =
+          true;
+
+
+        submitButton.innerHTML =
+          '<span class="loader"></span>Evaluating…';
+
+
+        try {
+
+          const response =
+            await fetch(
+              '/eligibility',
+              {
+                method: 'POST',
+
+                headers: {
+                  'Content-Type':
+                    'application/json'
+                },
+
+                body:
+                  JSON.stringify(
+                    payload
+                  )
+              }
+            );
+
+
+          const data =
+            await response.json();
+
+
+          /*
+           * Important:
+           * HTTP 422 for a rejected eligibility
+           * decision is intentionally preserved.
+           *
+           * fetch() still resolves normally,
+           * therefore the valid rejection
+           * response is rendered in the UI.
+           */
+          showDecision(
+            data
+          );
+
+        } catch (_) {
+
+          showError(
+            'service_unavailable'
+          );
+
+        } finally {
+
+          submitButton.disabled =
+            false;
+
+
+          submitButton.textContent =
+            oldLabel;
+        }
+      }
+    );
+
 
     loadRuntime();
     loadProducts();
   </script>
+
 </body>
 </html>
